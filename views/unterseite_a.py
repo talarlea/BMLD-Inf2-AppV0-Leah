@@ -1,9 +1,4 @@
 import streamlit as st
-
-st.title("Unterseite A")
-
-st.write("Diese Seite ist eine Unterseite der Startseite.")
-import streamlit as st
 import pandas as pd
 
 st.title("Did i pass - Calculator")
