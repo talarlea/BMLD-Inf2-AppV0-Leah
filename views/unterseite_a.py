@@ -23,7 +23,7 @@ with st.form("ects_form"):
         default_data,
         num_rows="dynamic",
         column_config={
-            "Note": st.column_config.NumberColumn("Note", min_value=1.0, max_value=6.0, step=0.1),
+            "Note": st.column_config.NumberColumn("Note", min_value=1.0, max_value=6.0, step=0.01),
             "ECTS": st.column_config.NumberColumn("ECTS", min_value=0.5, max_value=30.0, step=0.5)
         }
     )
