@@ -7,7 +7,6 @@ st.write("Der ECTS‑Notenrechner ermöglicht es, den persönlichen Notendurchsc
 "Dazu werden für jedes Fach die erzielte Note und die entsprechende ECTS‑Gewichtung eingetragen." \
 "Aus diesen Angaben wird automatisch der gewichtete Durchschnitt ermittelt, sodass auf einen Blick ersichtlich ist, ob die Modulgruppe bestanden wurde oder nicht.")
 
-st.write("Autoren: Steffi Neuhof (bierist3@students.zhaw.ch), Leah Talary (talarlea@students.zhaw.ch)")
 
 default_data = pd.DataFrame({
     "Fach": [""],

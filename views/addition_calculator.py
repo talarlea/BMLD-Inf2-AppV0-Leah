@@ -1,5 +1,5 @@
 import streamlit as st
-from functions.addieren import add
+from functions.addieren import add, subtract
 
 st.title("Addition")
 
