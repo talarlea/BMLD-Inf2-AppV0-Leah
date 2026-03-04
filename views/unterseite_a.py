@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.title("Did i pass - Calculator")
+st.title("Did I pass - Calculator")
 
 st.write("Der ECTS‑Notenrechner ermöglicht es, den persönlichen Notendurchschnitt einer Modulgruppe zu berechnen. " \
 "Dazu werden für jedes Fach die erzielte Note und die entsprechende ECTS‑Gewichtung eingetragen." \
@@ -10,7 +10,7 @@ st.write("Der ECTS‑Notenrechner ermöglicht es, den persönlichen Notendurchsc
 default_data = pd.DataFrame({
     "Fach": [""],
     "ECTS": [1.0],
-    "Note": [4.0]
+    "Note": [4.00]
 })
 
 with st.form("ects_form"):
