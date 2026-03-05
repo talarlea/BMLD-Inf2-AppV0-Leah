@@ -11,9 +11,6 @@ from views.functions_Pass import (
     validiere_daten
 )
 
-# ---------------------------
-# DIALOG: Nicht bestanden
-# ---------------------------
 
 @st.dialog("Nicht bestanden")
 def exmatrikulation_dialog():
@@ -32,9 +29,6 @@ def exmatrikulation_dialog():
         if st.button("Abbrechen"):
             st.stop()
 
-# ---------------------------
-# HAUPTAPP
-# ---------------------------
 
 st.title("Did I pass? - Calculator")
 
@@ -70,22 +64,15 @@ with st.form("ects_form"):
     submitted = st.form_submit_button("Berechnen")
 
 
-# ---------------------------
-# BEI SUBMIT
-# ---------------------------
-
 if submitted:
     if validiere_daten(df):
 
-        # Berechnung
         ges_ects, durchschnitt = berechne_durchschnitt(df)
 
-        # Ergebnisse anzeigen
         zeige_ergebnis(ges_ects, durchschnitt)
         zeige_status(durchschnitt)
         zeige_statistik(df)
         download_csv(df)
 
-        # Danach Dialog öffnen – UI bleibt sichtbar
         if durchschnitt < 4.0:
             exmatrikulation_dialog()
