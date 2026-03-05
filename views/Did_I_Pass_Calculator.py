@@ -10,6 +10,32 @@ from views.functions_Pass import (
     download_csv,
     validiere_daten
 )
+
+# ---------------------------
+# DIALOG: Nicht bestanden
+# ---------------------------
+
+@st.dialog("Nicht bestanden")
+def exmatrikulation_dialog():
+    st.warning("Der Notendurchschnitt liegt unter 4.00.")
+    st.write("Was möchtest du tun?")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.link_button(
+            "👉 Exmatrikulation hier lang!",
+            "https://www.zhaw.ch/storage/lsfm/studium/_formulare-merkblaetter/austritt-merkblatt.pdf"
+        )
+
+    with col2:
+        if st.button("Abbrechen"):
+            st.stop()
+
+# ---------------------------
+# HAUPTAPP
+# ---------------------------
+
 st.title("Did I pass? - Calculator")
 
 st.write(
@@ -43,10 +69,23 @@ with st.form("ects_form"):
 
     submitted = st.form_submit_button("Berechnen")
 
+
+# ---------------------------
+# BEI SUBMIT
+# ---------------------------
+
 if submitted:
     if validiere_daten(df):
+
+        # Berechnung
         ges_ects, durchschnitt = berechne_durchschnitt(df)
+
+        # Ergebnisse anzeigen
         zeige_ergebnis(ges_ects, durchschnitt)
         zeige_status(durchschnitt)
         zeige_statistik(df)
         download_csv(df)
+
+        # Danach Dialog öffnen – UI bleibt sichtbar
+        if durchschnitt < 4.0:
+            exmatrikulation_dialog()
