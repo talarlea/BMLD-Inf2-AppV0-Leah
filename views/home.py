@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Meine erste Streamlit App")
+st.title("Leistungnachweis Rechner App - Did I pass?")
 
 # !! WICHTIG: Eure Emails müssen in der App erscheinen!!
 
