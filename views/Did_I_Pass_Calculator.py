@@ -7,7 +7,6 @@ from views.functions_Pass import (
     zeige_ergebnis,
     zeige_status,
     zeige_statistik,
-    zeige_diagramm,
     download_csv,
     validiere_daten
 )
@@ -50,5 +49,4 @@ if submitted:
         zeige_ergebnis(ges_ects, durchschnitt)
         zeige_status(durchschnitt)
         zeige_statistik(df)
-        zeige_diagramm(df)
         download_csv(df)
