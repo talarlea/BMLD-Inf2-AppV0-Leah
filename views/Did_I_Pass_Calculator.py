@@ -29,9 +29,11 @@ if submitted:
     if len(df) > 0:
         ges_ects = df["ECTS"].sum()
         durchschnitt = (df["ECTS"] * df["Note"]).sum() / ges_ects
+        st.write(f"Gesamte ECTS: {ges_ects}")
         st.metric("Durchschnitt", round(durchschnitt, 2))
     
-        if durchschnitt > 4:
+        if durchschnitt >= 4:
+         st.success("Bestanden! Herzlichen Glückwunsch!")
          st.balloons()
         else:
-            st.warning("Leider nicht bestanden. Versuche es erneut!")   
+            st.error("Leider nicht bestanden. Versuche es erneut!")   
