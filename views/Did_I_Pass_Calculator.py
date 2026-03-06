@@ -11,7 +11,6 @@ from views.functions_Pass import (
     validiere_daten
 )
 
-
 @st.dialog("Nicht bestanden")
 def exmatrikulation_dialog():
     st.warning("Der Notendurchschnitt liegt unter 4.00.")
@@ -24,11 +23,6 @@ def exmatrikulation_dialog():
             "👉 Exmatrikulation hier lang!",
             "https://www.zhaw.ch/storage/lsfm/studium/_formulare-merkblaetter/austritt-merkblatt.pdf"
         )
-
-    with col2:
-        if st.button("Abbrechen"):
-            st.stop()
-
 
 st.title("Did I pass? - Calculator")
 
