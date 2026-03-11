@@ -1,8 +1,18 @@
 import streamlit as st
 import pandas as pd
+
 from functions.pass_calculator import (
     berechne_durchschnitt,
     ist_bestanden,)
+
+st.title("Did I pass? - Calculator")
+
+st.write(
+    "Der ECTS-Notenrechner ermöglicht es, den persönlichen Notendurchschnitt "
+    "einer Modulgruppe zu berechnen. Dazu werden für jedes Fach die erzielte "
+    "Note und die entsprechende ECTS-Gewichtung eingetragen. "
+    "Aus diesen Angaben wird automatisch der gewichtete Durchschnitt ermittelt."
+)
 
 def create_default_dataframe():
     return pd.DataFrame({
@@ -36,15 +46,6 @@ def exmatrikulation_dialog():
             "👉 Exmatrikulation hier lang!",
             "https://www.zhaw.ch/storage/lsfm/studium/_formulare-merkblaetter/austritt-merkblatt.pdf"
         )
-
-st.title("Did I pass? - Calculator")
-
-st.write(
-    "Der ECTS-Notenrechner ermöglicht es, den persönlichen Notendurchschnitt "
-    "einer Modulgruppe zu berechnen. Dazu werden für jedes Fach die erzielte "
-    "Note und die entsprechende ECTS-Gewichtung eingetragen. "
-    "Aus diesen Angaben wird automatisch der gewichtete Durchschnitt ermittelt."
-)
 
 default_data = create_default_dataframe()
 
@@ -107,14 +108,3 @@ def download_csv(df):
         file_name="noten_ects.csv",
         mime="text/csv"
     )
-
-def validiere_daten(df):
-    if df["ECTS"].sum() == 0:
-        st.warning("Die ECTS dürfen nicht 0 sein.")
-        return False
-
-    if df["Note"].isnull().any():
-        st.warning("Bitte alle Noten ausfüllen.")
-        return False
-
-    return True

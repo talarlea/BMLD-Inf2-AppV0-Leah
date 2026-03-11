@@ -10,7 +10,6 @@ def berechne_durchschnitt(df):
     durchschnitt = (df["ECTS"] * df["Note"]).sum() / ges_ects
     return ges_ects, durchschnitt
 
-
 def ist_bestanden(durchschnitt, grenze=4.0):
     return durchschnitt >= grenze
 
