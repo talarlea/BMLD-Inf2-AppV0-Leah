@@ -1,15 +1,5 @@
-import streamlit as st
-import pandas as pd
 from datetime import datetime
 import pytz
-
-
-def create_default_dataframe():
-    return pd.DataFrame({
-        "Fach": [""],
-        "ECTS": [1.0],
-        "Note": [4.00]
-    })
 
 def berechne_durchschnitt(df):
     ges_ects = df["ECTS"].sum()
@@ -24,18 +14,6 @@ def berechne_durchschnitt(df):
 def ist_bestanden(durchschnitt, grenze=4.0):
     return durchschnitt >= grenze
 
-
-def zeige_ergebnis(ects, durchschnitt):
-    st.write(f"Gesamte ECTS: {ects}")
-    st.metric("Durchschnitt", round(durchschnitt, 2))
-
-
-def zeige_status(durchschnitt):
-    if ist_bestanden(durchschnitt):
-        st.success("Bestanden! Herzlichen Glückwunsch!")
-        st.balloons()
-    else:
-        st.error("Leider nicht bestanden. Versuche es erneut!")
 
 def zeige_statistik(df):
     if len(df) == 0:

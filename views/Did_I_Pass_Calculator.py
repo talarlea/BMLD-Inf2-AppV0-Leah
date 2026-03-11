@@ -11,6 +11,26 @@ from views.functions_Pass import (
     validiere_daten
 )
 
+def create_default_dataframe():
+    return pd.DataFrame({
+        "Fach": [""],
+        "ECTS": [1.0],
+        "Note": [4.00]
+    })
+
+def zeige_ergebnis(ects, durchschnitt):
+    st.write(f"Gesamte ECTS: {ects}")
+    st.metric("Durchschnitt", round(durchschnitt, 2))
+
+
+def zeige_status(durchschnitt):
+    if ist_bestanden(durchschnitt):
+        st.success("Bestanden! Herzlichen Glückwunsch!")
+        st.balloons()
+    else:
+        st.error("Leider nicht bestanden. Versuche es erneut!")
+
+
 @st.dialog("Nicht bestanden")
 def exmatrikulation_dialog():
     st.warning("Der Notendurchschnitt liegt unter 4.00.")
@@ -34,6 +54,7 @@ st.write(
 )
 
 default_data = create_default_dataframe()
+
 
 with st.form("ects_form"):
     df = st.data_editor(
