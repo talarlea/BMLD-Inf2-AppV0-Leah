@@ -12,5 +12,3 @@ def berechne_durchschnitt(df):
 
 def ist_bestanden(durchschnitt, grenze=4.0):
     return durchschnitt >= grenze
-
-
