@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 
 from functions.pass_calculator import (
     berechne_durchschnitt,
@@ -84,6 +85,7 @@ def exmatrikulation_dialog():
             "https://www.zhaw.ch/storage/lsfm/studium/_formulare-merkblaetter/austritt-merkblatt.pdf"
         )
 
+
 # ---------------- UI ---------------- #
 
 st.title("Did I pass? - Calculator")
@@ -128,6 +130,19 @@ if submitted:
 
         ges_ects, durchschnitt = berechne_durchschnitt(df)
 
+        # --- HISTORY SPEICHERN ---
+        neuer_eintrag = pd.DataFrame([{
+            "Zeit": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "ECTS": ges_ects,
+            "Durchschnitt": round(durchschnitt, 2),
+            "Bestanden": ist_bestanden(durchschnitt)
+        }])
+
+        st.session_state["data_df"] = pd.concat(
+            [st.session_state["data_df"], neuer_eintrag],
+            ignore_index=True
+        )
+
         zeige_ergebnis(ges_ects, durchschnitt)
         zeige_status(durchschnitt)
         zeige_statistik(df)
@@ -135,3 +150,19 @@ if submitted:
 
         if durchschnitt < 4.0:
             exmatrikulation_dialog()
+
+# ---------------- HISTORY ---------------- #
+
+if not st.session_state["data_df"].empty:
+
+    st.divider()
+    st.subheader("Berechnungshistorie")
+
+    st.dataframe(
+        st.session_state["data_df"],
+        use_container_width=True
+    )
+
+    if st.button("Historie löschen"):
+        st.session_state["data_df"] = pd.DataFrame()
+        st.rerun()
