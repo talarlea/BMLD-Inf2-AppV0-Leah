@@ -3,6 +3,8 @@ import streamlit as st
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
+st.set_page_config(page_title="Meine App", page_icon=":material/home:")
+
 data_manager = DataManager(
     fs_protocol='webdav',
     fs_root_folder='bmld_app'
@@ -16,9 +18,6 @@ if 'data_df' not in st.session_state:
         initial_value=pd.DataFrame(),
         parse_dates=['timestamp']
     )
-
-    
-st.set_page_config(page_title="Meine App", page_icon=":material/home:")
 
 pg_home = st.Page("views/home.py", title="Home", icon=":material/home:", default=True)
 pg_second = st.Page("views/Did_I_Pass_Calculator.py", title="Did I pass? - Calculator", icon=":material/info:")
