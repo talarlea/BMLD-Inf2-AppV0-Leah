@@ -3,6 +3,10 @@ import streamlit as st
 from utils.data_manager import DataManager
 from utils.login_manager import LoginManager
 
+# Session State initialisieren
+if "history" not in st.session_state:
+    st.session_state["history"] = pd.DataFrame(colums=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
+
 st.set_page_config(page_title="Meine App", page_icon=":material/home:")
 
 data_manager = DataManager(

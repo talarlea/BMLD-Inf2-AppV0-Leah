@@ -128,41 +128,43 @@ with st.form("ects_form"):
 if submitted:
     if validiere_daten(df):
 
-        ges_ects, durchschnitt = berechne_durchschnitt(df)
+        result = berechne_durchschnitt(df)
+
 
         # --- HISTORY SPEICHERN ---
         neuer_eintrag = pd.DataFrame([{
-            "Zeit": datetime.now().strftime("%Y-%m-%d %H:%M"),
-            "ECTS": ges_ects,
-            "Durchschnitt": round(durchschnitt, 2),
-            "Bestanden": ist_bestanden(durchschnitt)
+            "Zeit": result["Zeit"],
+            "ECTS": result["ECTS"],
+            "Durchschnitt": result["Durchschnitt"],
+            "Bestanden": result["Bestanden"]
         }])
 
-        st.session_state["data_df"] = pd.concat(
-            [st.session_state["data_df"], neuer_eintrag],
+        st.session_state["History"] = pd.concat(
+            [st.session_state["History"], neuer_eintrag],
             ignore_index=True
         )
 
-        zeige_ergebnis(ges_ects, durchschnitt)
-        zeige_status(durchschnitt)
+# Ausgabe
+        zeige_ergebnis(result["ECTS"], result["Durchschnitt"])
+        zeige_status(result["Durchschnitt"])
         zeige_statistik(df)
         download_csv(df)
 
-        if durchschnitt < 4.0:
+        if not result["Bestanden"]:
             exmatrikulation_dialog()
 
 # ---------------- HISTORY ---------------- #
 
-if not st.session_state["data_df"].empty:
+if not st.session_state["History"].empty:
 
     st.divider()
     st.subheader("Berechnungshistorie")
 
     st.dataframe(
-        st.session_state["data_df"],
+        st.session_state["History"],
         use_container_width=True
     )
 
     if st.button("Historie löschen"):
-        st.session_state["data_df"] = pd.DataFrame()
+        st.session_state["History"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
         st.rerun()
