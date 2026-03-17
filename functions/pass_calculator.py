@@ -34,3 +34,4 @@ def ist_bestanden(durchschnitt, grenze=4.0):
 def get_timestamp():
     tz = pytz.timezone('Europe/Zurich')
     return datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+
