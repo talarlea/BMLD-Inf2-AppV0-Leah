@@ -3,8 +3,8 @@ import pytz
 
 def berechne_durchschnitt(df):
     # Schutz bei ungültigen Daten
-    if "ETCS" not in df.columns or "Note" not in df.columns:
-        raise ValueError("DataFrame benötigt Spalten 'ECTS' und 'Noten'.")
+    if "ECTS" not in df.columns or "Note" not in df.columns:
+        raise ValueError("DataFrame benötigt Spalten 'ECTS' und 'Note'.")
     
     df = df.dropna(subset=["ECTS", "Note"])  # Entferne Zeilen mit fehlenden Werten
 
