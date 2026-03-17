@@ -17,6 +17,17 @@ def berechne_durchschnitt(df):
             "Bestanden": False
         }
 
+    gesamt_note = (df["ECTS"] * df["Note"]).sum()
+    durchschnitt = gesamt_note / ges_ects
+
+    return {
+        "Zeit": get_timestamp(),
+        "ECTS": ges_ects,
+        "Durchschnitt": durchschnitt,
+        "Bestanden": ist_bestanden(durchschnitt)
+    }
+
+
 def ist_bestanden(durchschnitt, grenze=4.0):
     return durchschnitt >= grenze
 

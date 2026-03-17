@@ -28,12 +28,20 @@ def validiere_daten(df):
         st.error("Bitte mindestens ein Fach hinzufügen.")
         return False
 
-    if df["ECTS"].isnull().any() or df["Note"].isnull().any():
+    if df["ECTS"].isnull().any() or df["Note"].isnull().any() or df["Fach"].isnull().any():
+        st.error("Bitte alle Felder ausfüllen.")
+        return False
+
+    if df["Fach"].astype(str).str.strip().eq("").any():
         st.error("Bitte alle Felder ausfüllen.")
         return False
 
     if (df["ECTS"] <= 0).any():
         st.error("ECTS müssen größer als 0 sein.")
+        return False
+
+    if (df["Note"] < 1.0).any() or (df["Note"] > 6.0).any():
+        st.error("Note muss zwischen 1.0 und 6.0 liegen.")
         return False
 
     return True
@@ -99,6 +107,9 @@ st.write(
 
 default_data = create_default_dataframe()
 
+if "History" not in st.session_state:
+    st.session_state["History"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
+
 # ---------------- FORM ---------------- #
 
 with st.form("ects_form"):
@@ -139,8 +150,8 @@ if submitted:
             "Bestanden": result["Bestanden"]
         }])
 
-        st.session_state["History"] = pd.concat(
-            [st.session_state["History"], neuer_eintrag],
+        st.session_state["history"] = pd.concat(
+            [st.session_state["history"], neuer_eintrag],
             ignore_index=True
         )
 
@@ -155,16 +166,16 @@ if submitted:
 
 # ---------------- HISTORY ---------------- #
 
-if not st.session_state["History"].empty:
+if not st.session_state["history"].empty:
 
     st.divider()
     st.subheader("Berechnungshistorie")
 
     st.dataframe(
-        st.session_state["History"],
+        st.session_state["history"],
         use_container_width=True
     )
 
     if st.button("Historie löschen"):
-        st.session_state["History"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
+        st.session_state["history"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
         st.rerun()
