@@ -5,7 +5,7 @@ from utils.login_manager import LoginManager
 
 # Session State initialisieren
 if "history" not in st.session_state:
-    st.session_state["history"] = pd.DataFrame(colums=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
+    st.session_state["history"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
 
 st.set_page_config(page_title="Meine App", page_icon=":material/home:")
 
