@@ -32,10 +32,6 @@ def validiere_daten(df):
         st.error("Bitte alle Felder ausfüllen.")
         return False
 
-    if df["Fach"].astype(str).str.strip().eq("").any():
-        st.error("Bitte alle Felder ausfüllen.")
-        return False
-
     if (df["ECTS"] <= 0).any():
         st.error("ECTS müssen größer als 0 sein.")
         return False
