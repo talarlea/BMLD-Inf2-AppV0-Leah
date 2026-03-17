@@ -24,18 +24,22 @@ def zeige_ergebnis(ects, durchschnitt):
 
 def validiere_daten(df):
 
+    # Prüfung: mindestens eine Zeile
     if len(df) == 0:
         st.error("Bitte mindestens ein Fach hinzufügen.")
         return False
 
+    # Prüfung: Null / Nicht ausgefüllt
     if df["ECTS"].isnull().any() or df["Note"].isnull().any() or df["Fach"].isnull().any():
         st.error("Bitte alle Felder ausfüllen.")
         return False
 
+    # Prüfung: ECTS > 0
     if (df["ECTS"] <= 0).any():
         st.error("ECTS müssen größer als 0 sein.")
         return False
 
+    # Prüfung: Notenbereich
     if (df["Note"] < 1.0).any() or (df["Note"] > 6.0).any():
         st.error("Note muss zwischen 1.0 und 6.0 liegen.")
         return False
@@ -103,8 +107,9 @@ st.write(
 
 default_data = create_default_dataframe()
 
-if "History" not in st.session_state:
-    st.session_state["History"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
+# Korrigiert: nur 'history' statt 2 verschiedene Keys
+if "history" not in st.session_state:
+    st.session_state["history"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
 
 # ---------------- FORM ---------------- #
 
@@ -133,10 +138,16 @@ with st.form("ects_form"):
 # ---------------- LOGIC ---------------- #
 
 if submitted:
+
+    # Leere/automatisch erstellte Zeilen entfernen
+    df = df.dropna(how="all")
+
+    # Leere Felder ebenfalls rauswerfen
+    df = df.dropna(subset=["Fach", "ECTS", "Note"], how="any")
+
     if validiere_daten(df):
 
         result = berechne_durchschnitt(df)
-
 
         # --- HISTORY SPEICHERN ---
         neuer_eintrag = pd.DataFrame([{
@@ -151,7 +162,7 @@ if submitted:
             ignore_index=True
         )
 
-# Ausgabe
+        # Ausgabe
         zeige_ergebnis(result["ECTS"], result["Durchschnitt"])
         zeige_status(result["Durchschnitt"])
         zeige_statistik(df)
