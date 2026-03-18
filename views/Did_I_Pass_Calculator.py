@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+from utils.data_manager import DataManager  # --- NEW CODE: import data manager ---
 
 from functions.pass_calculator import (
     berechne_durchschnitt,
@@ -186,3 +187,8 @@ if not st.session_state["history"].empty:
     if st.button("Historie löschen"):
         st.session_state["history"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
         st.rerun()
+
+    # --- CODE UPDATE: save data to data manager ---
+    data_manager = DataManager()
+    data_manager.save_user_data(st.session_state['data_df'], 'data.csv')
+    # --- END OF CODE UPDATE ---
