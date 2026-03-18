@@ -20,7 +20,6 @@ if 'data_df' not in st.session_state:
     st.session_state['data_df'] = data_manager.load_user_data(
         'data.csv',
         initial_value=pd.DataFrame(),
-        parse_dates=['timestamp']
     )
 
 pg_home = st.Page("views/home.py", title="Home", icon=":material/home:", default=True)
