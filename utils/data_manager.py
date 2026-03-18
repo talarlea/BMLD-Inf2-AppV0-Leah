@@ -133,7 +133,11 @@ class DataManager:
             st.error(f"DataManager: No user logged in, cannot load '{file_name}'")
             return initial_value
         dh = self._get_data_handler('user_data_' + username)
-        return dh.load(file_name, initial_value, **load_args)
+        try:
+             return dh.load(file_name, initial_value, **load_args)
+        except Exception:
+        # Datei leer, kaputt oder nicht parsebar → gib Default zurück
+            return initial_value
 
     def save_app_data(self, data, file_name):
         """
