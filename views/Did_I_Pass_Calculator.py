@@ -188,7 +188,11 @@ if not st.session_state["history"].empty:
         st.session_state["history"] = pd.DataFrame(columns=["Zeit", "ECTS", "Durchschnitt", "Bestanden"])
         st.rerun()
 
+# Verlauf als Grafik
+chart_df = st.session_state["history"].sort_values("Zeit")
+st.line_chart(chart_df, x="Zeit", y="Durchschnitt")
+
     # --- CODE UPDATE: save data to data manager ---
-    data_manager = DataManager()
-    data_manager.save_user_data(st.session_state['data_df'], 'data.csv')
+data_manager = DataManager()
+data_manager.save_user_data(st.session_state['history'], 'data.csv')
     # --- END OF CODE UPDATE ---
