@@ -116,7 +116,11 @@ class DataHandler:
         elif ext in [".yaml", ".yml"]:
             return yaml.safe_load(self.read_text(relative_path))
         elif ext == ".csv":
-            return pd.read_csv(StringIO(self.read_text(relative_path)), **load_args)       
+            try:
+                return pd.read_csv(StringIO(self.read_text(relative_path)), **load_args)
+            except pd.errors.EmptyDataError:
+                # Datei existiert, ist aber leer → gib initial_value zurück
+                return initial_value
         elif ext == ".txt":
             return self.read_text(relative_path)
         else:
